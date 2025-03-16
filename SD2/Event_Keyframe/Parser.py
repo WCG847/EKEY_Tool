@@ -3,6 +3,14 @@ import struct
 import os
 import json
 
+def ReadZYX8(file):
+	return [struct.unpack("<b", file.read(1))[0] for i in range(3)]
+
+def ExpandINT8(value):
+	return value / 127.0
+
+def ExpandZYX8(value):
+	return [ExpandINT8(value[0]), ExpandINT8(value[1]), ExpandINT8(value[2])]
 
 class CEKey:
 	def __init__(self, PAC):
@@ -26,19 +34,29 @@ class CEKey:
 				raise ValueError("Frame count is too high")
 			self.Entries.append({
 				"ChildID": ChildID, "AdultID": AdultID, "RVA": RVA, "FrameCount": FrameCount})
-			return self.Entries
 
 	def GetKeyframes(self):
 		self.Keyframes = []
+		self.Channels = []
 		for i in range(self.EntryCount):
 			self.AA.seek(self.Entries[i]["RVA"], 0)
 			FrameCount = self.Entries[i]["FrameCount"]
-			Keyframes = []
 			for YukesBullShit in range(FrameCount):
 				F_Length = struct.unpack("<B", self.AA.read(1))[0]
 				FrameLength = F_Length & 127
 				Channel_Count = struct.unpack("<B", self.AA.read(1))[0]
-				Joint_Count = ((FrameLength - 2) // 3) + 1
+				Joint_Count = (Channel_Count - 3 // 3)
+				for highly_unorthodox in range(Joint_Count):
+					'''ROOT = 6 CHANNELS'''
+					RootPos = ExpandZYX8(ReadZYX8(self.AA))
+					RootRot = ExpandZYX8(ReadZYX8(self.AA))
+					'''JOINTS = 3 CHANNELS'''
+
+
+
+
+
+
 
 				
 
