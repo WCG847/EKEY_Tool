@@ -34,6 +34,17 @@ def RaiseINT12Errors(value):
 	if value < -2048 or value > 2047:
 		raise ValueError("INT12 value out of range: %d" % value)
 
+def CheckINT10(value):
+	if value < -512 or value > 511:
+		return False
+	return True
+
+def CheckINT12(value):
+	if value < -2048 or value > 2047:
+		return False
+	return True
+
+
 
 def ExpandINT8(value):
 	return value / 127.0
