@@ -27,6 +27,7 @@
     <Folder Include="SD3\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SD2\Event_Keyframe\Event_Markers.py" />
     <Compile Include="SD2\Event_Keyframe\Parser.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

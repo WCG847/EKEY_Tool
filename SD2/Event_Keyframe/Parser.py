@@ -121,39 +121,42 @@ class CEKey:
             for YukesBullShit in range(FrameCount):
                 F_Length = struct.unpack("<B", self.AA.read(1))[0]
                 FrameLength = F_Length & 127
-                CC = struct.unpack("<B", self.AA.read(1))[0]
-                Flag = CC & 15
-                Channel_Count = CC & 240
-                if Channel_Count >= 60:
-                    """Read Joint Data as Halfwords"""
-                    pass
-                elif Channel_Count <= 30:
-                    pass
+                for WHYYYYYYYYY in range(FrameLength):
+                    CC = struct.unpack("<B", self.AA.read(1))[0]
+                    Flag = CC & 15
+                    Channel_Count = CC & 240
+                    if Channel_Count >= 60:
+                        """Read Joint Data as Halfwords"""
+                        pass
+                    elif Channel_Count <= 30:
+                        pass
 
-                Joint_Count = Channel_Count - 3 // 3
-                for highly_unorthodox in range(Joint_Count):
-                    joint_data = {
-                        "RootPos": ReparseRootPos(self.AA),
-                        "RootRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "SpineLRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "SpineURot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "NeckRot": ExpandZY8(ReadZY8(self.AA)),
-                        "HeadRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "LeftShoulderRot": ExpandZY8(ReadZY8(self.AA)),
-                        "LeftArmRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "LeftForeArmRot": ExpandZY8(ReadZY8(self.AA)),
-                        "LeftHandRot": ExpandZY8(ReadZY8(self.AA)),
-                        "RightShoulderRot": ExpandZY8(ReadZY8(self.AA)),
-                        "RightArmRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "RightForeArmRot": ExpandZY8(ReadZY8(self.AA)),
-                        "RightHandRot": ExpandZY8(ReadZY8(self.AA)),
-                        "LeftHipRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "LeftLegRot": struct.unpack("<b", self.AA.read(1))[0],  # X
-                        "LeftFootRot": ExpandZY8(ReadZY8(self.AA)),
-                        "RightHipRot": ExpandZYX8(ReadZYX8(self.AA)),
-                        "RightLegRot": struct.unpack("<b", self.AA.read(1))[0],  # X
-                        "RightFootRot": ExpandZY8(ReadZY8(self.AA)),
-                    }
+                    Joint_Count = Channel_Count - 3 // 3
+                    for highly_unorthodox in range(Joint_Count):
+                        joint_data = {
+                            "RootPos": ReparseRootPos(self.AA),
+                            "RootRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "SpineLRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "SpineURot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "NeckRot": ExpandZY8(ReadZY8(self.AA)),
+                            "HeadRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "LeftShoulderRot": ExpandZY8(ReadZY8(self.AA)),
+                            "LeftArmRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "LeftForeArmRot": ExpandZY8(ReadZY8(self.AA)),
+                            "LeftHandRot": ExpandZY8(ReadZY8(self.AA)),
+                            "RightShoulderRot": ExpandZY8(ReadZY8(self.AA)),
+                            "RightArmRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "RightForeArmRot": ExpandZY8(ReadZY8(self.AA)),
+                            "RightHandRot": ExpandZY8(ReadZY8(self.AA)),
+                            "LeftHipRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "LeftLegRot": struct.unpack("<b", self.AA.read(1))[0],  # X
+                            "LeftFootRot": ExpandZY8(ReadZY8(self.AA)),
+                            "RightHipRot": ExpandZYX8(ReadZYX8(self.AA)),
+                            "RightLegRot": struct.unpack("<b", self.AA.read(1))[0],  # X
+                            "RightFootRot": ExpandZY8(ReadZY8(self.AA)),
+                        }
 
-                    # Store the joint data in a list or another structure as needed
-                    self.Keyframes.append(joint_data)
+                        # Store the joint data in a list or another structure as needed
+                        self.Keyframes.append(joint_data)
+
+
