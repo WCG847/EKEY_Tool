@@ -6,6 +6,35 @@ import json
 def ReadZYX8(file):
 	return [struct.unpack("<b", file.read(1))[0] for i in range(3)]
 
+def ReadINT10(file):
+    value = struct.unpack("<H", file.read(2))[0]  # Read 2 bytes as an unsigned short
+    value &= 0x03FF  # Extract only the lower 10 bits
+    
+    # Check if the 10th bit (sign bit) is set
+    if value & 0x0200:
+        value -= 0x0400  # Apply two's complement sign extension
+    
+    return value
+
+def ReadINT12(file):
+	value = struct.unpack("<H", file.read(2))[0]  # Read 2 bytes as an unsigned short
+	value &= 0x0FFF  # Extract only the lower 12 bits
+	
+	# Check if the 12th bit (sign bit) is set
+	if value & 0x0800:
+		value -= 0x1000  # Apply two's complement sign extension
+	
+	return value
+
+def RaiseINT10Errors(value):
+	if value < -512 or value > 511:
+		raise ValueError("INT10 value out of range: %d" % value)
+
+def RaiseINT12Errors(value):
+	if value < -2048 or value > 2047:
+		raise ValueError("INT12 value out of range: %d" % value)
+
+
 def ExpandINT8(value):
 	return value / 127.0
 
