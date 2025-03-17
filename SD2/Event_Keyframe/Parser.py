@@ -1,4 +1,5 @@
 import struct
+import Event_Markers
 
 
 def ReadZYX8(file):
@@ -122,6 +123,14 @@ class CEKey:
                 F_Length = struct.unpack("<B", self.AA.read(1))[0]
                 FrameLength = F_Length & 127
                 for WHYYYYYYYYY in range(FrameLength):
+                    if FrameLength > 174:
+                        '''Assume Starting Event Markers'''
+                        FL = struct.unpack("<B", self.AA.read(1))[0]
+                        Flag_Length = FL & 127
+                        for i in range(Flag_Length):
+                            self.AA.seek(Flag_Length, 1)
+                            print("Event Markers Not Supported")
+
                     CC = struct.unpack("<B", self.AA.read(1))[0]
                     Flag = CC & 15
                     Channel_Count = CC & 240
@@ -131,7 +140,7 @@ class CEKey:
                     elif Channel_Count <= 30:
                         pass
 
-                    Joint_Count = Channel_Count - 3 // 3
+                    Joint_Count = (Channel_Count - 3) // 3
                     for highly_unorthodox in range(Joint_Count):
                         joint_data = {
                             "RootPos": ReparseRootPos(self.AA),
